@@ -13,8 +13,6 @@ public class arbolBinario<T extends Comparable<T>>{
     public void remove(){
         if(raiz==null){
             System.out.println("No hay nada que remover");
-        }else {
-
         }
     }
     public void insert(T elemento) {
@@ -31,9 +29,9 @@ public class arbolBinario<T extends Comparable<T>>{
 			return aInsertar;
 		}else {
 			if(aInsertar.getElemento().compareTo(temp.getElemento())>0) {
-				raiz.setDerecha(insertRec(temp.getDerecha(),aInsertar));
+				temp.setDerecha(insertRec(temp.getDerecha(),aInsertar));
 			}else {
-				raiz.setIzquierda(insertRec(temp.getIzquierda(),aInsertar));
+				temp.setIzquierda(insertRec(temp.getIzquierda(),aInsertar));
 
 			}
 			return temp;
