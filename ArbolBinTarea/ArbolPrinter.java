@@ -5,27 +5,27 @@ import java.util.List;
 public class ArbolPrinter<T extends Comparable<T>> {
 
     public void printNodo(Nodo<T> root) {
-        int maxLevel = maxLevel(root);
-        System.out.println("max:"+maxLevel);
+        int ultimoNivel = niveles(root);
+        System.out.println("NIVELES:"+ultimoNivel);
 
-        printNodoInternal(Collections.singletonList(root), 1, maxLevel);
+        ImprimirNodo(Collections.singletonList(root), 1, ultimoNivel);
     }
 
-    private void printNodoInternal(List<Nodo<T>> Nodos, int level, int maxLevel) {
-        if (Nodos.isEmpty() || isAllElementsNull(Nodos))
+    private void ImprimirNodo(List<Nodo<T>> Nodos, int nivel, int ultimoNivel) {
+        if (Nodos.isEmpty() || ElementosNull(Nodos))
             return;
 
-        int floor = maxLevel - level;
-        int endgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
-        int firstSpaces = (int) Math.pow(2, (floor)) - 1;
-        int betweenSpaces = (int) Math.pow(2, (floor + 1)) - 1;
+        int piso = ultimoNivel - nivel;
+        int endgeLines = (int) Math.pow(2, (Math.max(piso - 1, 0)));
+        int firstSpaces = (int) Math.pow(2, (piso)) - 1;
+        int betweenSpaces = (int) Math.pow(2, (piso + 1)) - 1;
 
-        ArbolPrinter.printWhitespaces(firstSpaces);
+        ArbolPrinter.espaciosImp(firstSpaces);
 
         List<Nodo<T>> newNodos = new ArrayList<Nodo<T>>();
         for (Nodo<T> Nodo : Nodos) {
             if (Nodo != null) {
-                System.out.print(Nodo.getElemento());
+                System.out.print("|"+Nodo.getElemento()+"|");
                 newNodos.add(Nodo.getIzquierda());
                 newNodos.add(Nodo.getDerecha());
             } else {
@@ -34,55 +34,55 @@ public class ArbolPrinter<T extends Comparable<T>> {
                 System.out.print(" ");
             }
 
-            ArbolPrinter.printWhitespaces(betweenSpaces);
+            ArbolPrinter.espaciosImp(betweenSpaces);
         }
         System.out.println("");
 
         for (int i = 1; i <= endgeLines; i++) {
             for (int j = 0; j < Nodos.size(); j++) {
-                ArbolPrinter.printWhitespaces(firstSpaces - i);
+                ArbolPrinter.espaciosImp(firstSpaces - i);
                 if (Nodos.get(j) == null) {
-                    ArbolPrinter.printWhitespaces(endgeLines + endgeLines + i + 1);
+                    ArbolPrinter.espaciosImp(endgeLines + endgeLines + i + 1);
                     continue;
                 }
 
                 if (Nodos.get(j).getIzquierda() != null)
                     System.out.print("/");
                 else
-                    ArbolPrinter.printWhitespaces(1);
+                    ArbolPrinter.espaciosImp(1);
 
-                ArbolPrinter.printWhitespaces(i + i - 1);
+                ArbolPrinter.espaciosImp(i + i);
 
                 if (Nodos.get(j).getDerecha() != null)
                     System.out.print("\\");
                 else
-                    ArbolPrinter.printWhitespaces(1);
+                    ArbolPrinter.espaciosImp(1);
 
-                ArbolPrinter.printWhitespaces(endgeLines + endgeLines - i);
+                ArbolPrinter.espaciosImp(endgeLines + endgeLines - i);
             }
 
             System.out.println("");
         }
 
-        printNodoInternal(newNodos, level + 1, maxLevel);
+        ImprimirNodo(newNodos, nivel + 1, ultimoNivel);
     }
 
-    private static void printWhitespaces(int count) {
+    private static void espaciosImp(int count) {
         for (int i = 0; i < count; i++)
             System.out.print(" ");
     }
 
-    private int maxLevel(Nodo<T> nodo) {
+    private int niveles(Nodo<T> nodo) {
         if (nodo != null){
-            return (Math.max(maxLevel(nodo.getIzquierda()), maxLevel(nodo.getDerecha())) + 1);
+            return (Math.max(niveles(nodo.getIzquierda()), niveles(nodo.getDerecha())) + 1);
         }else{
             return 0;
         }
     }
 
-    private boolean isAllElementsNull(List<Nodo<T>> list) {
-        for (Object object : list) {
-            if (object != null)
+    private boolean ElementosNull(List<Nodo<T>> list) {
+        for (Object objecto : list) {
+            if (objecto != null)
                 return false;
         }
 
